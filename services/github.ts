@@ -1,4 +1,3 @@
-
 import { Project } from '../types';
 
 const GITHUB_USERNAME = 'liamvwoudenberg-lang';
@@ -36,8 +35,11 @@ export const fetchGitHubFolder = async (
 
     const imageFiles = data.filter(file => 
       file.type === 'file' && 
-      /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
+      /\.(jpg|jpeg|png|gif|webp|JPG|JPEG|PNG)$/i.test(file.name)
     );
+
+    // Sort files alphabetically to ensure consistent order
+    imageFiles.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
 
     return imageFiles.map(file => ({
       id: `gh-${file.sha}`,

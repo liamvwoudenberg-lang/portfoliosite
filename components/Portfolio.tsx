@@ -9,6 +9,7 @@ interface PortfolioProps {
   onShowMore?: () => void;
   onBack?: () => void;
   onInquire?: (project: Project) => void;
+  isLoading?: boolean;
 }
 
 // Robust YouTube ID extractor handling Shorts, Embeds, and full iframe strings
@@ -53,7 +54,7 @@ const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({ proj
   );
 };
 
-export const Portfolio: React.FC<PortfolioProps> = ({ data, ui, title, previewOnly, onShowMore, onBack, onInquire }) => {
+export const Portfolio: React.FC<PortfolioProps> = ({ data, ui, title, previewOnly, onShowMore, onBack, onInquire, isLoading }) => {
   const [selected, setSelected] = useState<Project | null>(null);
 
   useEffect(() => {
@@ -86,10 +87,10 @@ export const Portfolio: React.FC<PortfolioProps> = ({ data, ui, title, previewOn
   };
 
   return (
-    <section id="portfolio" className="py-24 px-6 md:px-12 bg-black">
+    <section id="portfolio" className="py-24 px-6 md:px-12 bg-black min-h-screen">
       <div className="max-w-screen-2xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-          <div className="space-y-4">
+          <div className="space-y-4 relative z-10">
             {onBack && (
               <button onClick={onBack} className="text-[9px] uppercase tracking-[0.5em] text-neutral-500 hover:text-white transition-colors group flex items-center gap-3">
                 <i className="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> {ui.back}
@@ -99,9 +100,22 @@ export const Portfolio: React.FC<PortfolioProps> = ({ data, ui, title, previewOn
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {displayProjects.map(p => <ProjectCard key={p.id} project={p} onClick={() => setSelected(p)} />)}
-        </div>
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-20 text-neutral-500 animate-pulse">
+            <i className="fa-solid fa-circle-notch fa-spin text-2xl mb-4"></i>
+            <span className="text-[10px] uppercase tracking-[0.3em]">Loading Gallery...</span>
+          </div>
+        ) : displayProjects.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {displayProjects.map(p => <ProjectCard key={p.id} project={p} onClick={() => setSelected(p)} />)}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20 text-neutral-500 border border-white/5 bg-neutral-900/20 rounded-xl">
+             <i className="fa-regular fa-image text-3xl mb-4 opacity-50"></i>
+             <p className="text-xs uppercase tracking-[0.2em] font-bold mb-2">No Images Found</p>
+             <p className="text-[10px] max-w-xs text-center leading-relaxed">Ensure the folder "{title?.toLowerCase()}" exists in the GitHub repository.</p>
+          </div>
+        )}
 
         {previewOnly && data.length > 6 && (
           <div className="mt-24 text-center">

@@ -17,6 +17,10 @@ const App: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeFolder, setActiveFolder] = useState<string | null>(null);
   const [inquiryContext, setInquiryContext] = useState<{ type: 'package' | 'project' | 'general', name?: string } | null>(null);
+  
+  // Dynamic Data State
+  const [dynamicProjects, setDynamicProjects] = useState<Project[]>([]);
+  const [loadingFolder, setLoadingFolder] = useState(false);
 
   // Lifted State: Initialize with static data, but allow updates
   const [siteDataMap, setSiteDataMap] = useState<Record<Language, SiteData>>(TRANSLATIONS);
@@ -35,6 +39,28 @@ const App: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Fetch GitHub Folder content when entering a gallery folder
+  useEffect(() => {
+    if (activeFolder && view === ViewMode.WorkGallery) {
+      // Check if we already have projects for this folder to avoid refetching
+      const hasProjects = dynamicProjects.some(p => p.folder === activeFolder);
+      if (!hasProjects) {
+        setLoadingFolder(true);
+        fetchGitHubFolder(activeFolder, 'Photography')
+          .then(projects => {
+            setDynamicProjects(prev => {
+              // Deduplicate just in case
+              const existingIds = new Set(prev.map(p => p.id));
+              const uniqueNew = projects.filter(p => !existingIds.has(p.id));
+              return [...prev, ...uniqueNew];
+            });
+          })
+          .catch(err => console.error("Failed to load projects", err))
+          .finally(() => setLoadingFolder(false));
+      }
+    }
+  }, [activeFolder, view, dynamicProjects]);
 
   // Admin Data Update Handler
   const handleAdminSave = (newData: SiteData) => {
@@ -110,6 +136,7 @@ const App: React.FC = () => {
         const photoCats = [
           { f: 'concert', t: 'Concerts', s: 'Live performance', img: 'https://raw.githubusercontent.com/liamvwoudenberg-lang/portfolio/main/concert/_FOM7995-Enhanced-NR.jpg' },
           { f: 'clothing', t: 'Fashion', s: 'Campaigns', img: 'https://raw.githubusercontent.com/liamvwoudenberg-lang/portfolio/main/clothing/DSC08391.jpg' },
+          { f: 'product', t: 'Product', s: 'Commercial Stills', img: 'https://img.youtube.com/vi/c_vPvZcodhY/maxresdefault.jpg' },
           { f: 'portrait', t: 'Portraits', s: 'Professional', img: siteData.hero.backgroundUrl }
         ];
         return (
@@ -122,9 +149,11 @@ const App: React.FC = () => {
     }
 
     if (view === ViewMode.WorkGallery) {
+        const allProjects = [...siteData.projects, ...dynamicProjects];
         const galleryData = activeFolder 
-          ? siteData.projects.filter(p => p.folder === activeFolder) 
-          : siteData.projects.filter(p => p.category !== 'Photography');
+          ? allProjects.filter(p => p.folder === activeFolder) 
+          : allProjects.filter(p => p.category !== 'Photography');
+        
         return (
           <Portfolio 
             data={galleryData} 
@@ -132,6 +161,7 @@ const App: React.FC = () => {
             title={activeFolder ? activeFolder.toUpperCase() : "Motion"}
             onBack={() => navigate(activeFolder ? ViewMode.WorkPhotography : ViewMode.WorkIndex)}
             onInquire={handleProjectInquiry}
+            isLoading={loadingFolder && galleryData.length === 0}
           />
         );
     }
@@ -142,7 +172,7 @@ const App: React.FC = () => {
         <Hero data={siteData.hero} ui={siteData.ui} onCtaClick={() => scrollToSection('portfolio')} />
         <div id="portfolio">
           <Portfolio 
-            data={siteData.projects} 
+            data={siteData.projects.filter(p => p.category !== 'Photography')} // Show only video on home
             ui={siteData.ui}
             previewOnly 
             onShowMore={() => navigate(ViewMode.WorkIndex)}

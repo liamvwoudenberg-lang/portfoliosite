@@ -42,8 +42,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onViewChange, onScr
 
   return (
     <>
-      <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-700 ${isScrolled ? 'bg-black/90 backdrop-blur-xl py-4 md:py-5 border-b border-white/5 shadow-lg' : 'bg-transparent py-6 md:py-10'}`}>
-        <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex justify-between items-center md:grid md:grid-cols-3">
+      <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-700 pointer-events-none ${isScrolled ? 'bg-black/90 backdrop-blur-xl py-4 md:py-5 border-b border-white/5 shadow-lg' : 'bg-transparent py-6 md:py-10'}`}>
+        <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex justify-between items-center md:grid md:grid-cols-3 pointer-events-auto">
           
           {/* Left: Logo */}
           <div 
@@ -86,7 +86,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onViewChange, onScr
           </div>
 
           {/* Mobile Toggle */}
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2 z-[60] focus:outline-none">
+          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2 z-[60] focus:outline-none pointer-events-auto">
             <i className={`fa-solid ${isOpen ? 'fa-xmark' : 'fa-bars-staggered'} text-xl transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`}></i>
           </button>
         </div>
