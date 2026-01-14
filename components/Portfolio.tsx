@@ -1,220 +1,118 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { Project } from '../types';
 
 interface PortfolioProps {
   data: Project[];
+  ui: any;
+  title?: string;
   previewOnly?: boolean;
   onShowMore?: () => void;
-  externalFilter?: 'All' | 'Photography' | 'Cinematography';
-  onFilterChange?: (filter: 'All' | 'Photography' | 'Cinematography') => void;
+  onBack?: () => void;
   onInquire?: (project: Project) => void;
 }
 
-// Helper to extract YouTube ID (includes support for Shorts)
 const getYouTubeId = (url: string) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
   const match = url.match(regExp);
   return (match && match[2].length === 11) ? match[2] : null;
 };
 
-// Sub-component for individual project cards to handle image loading state independently
 const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({ project, onClick }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-
   return (
-    <article 
+    <div 
       onClick={onClick}
-      className="group relative cursor-pointer overflow-hidden bg-neutral-950 border border-white/5 aspect-[4/5] md:aspect-square lg:aspect-[16/10]"
+      className="group relative cursor-pointer bg-[#050505] overflow-hidden aspect-video border border-white/5 hover:border-white/20 transition-all duration-700"
     >
-      {/* Loading Skeleton */}
-      <div 
-        className={`absolute inset-0 bg-neutral-900 transition-opacity duration-500 ${isLoaded ? 'opacity-0' : 'opacity-100 animate-pulse'}`} 
-      />
-
       <img 
         src={project.thumbnail} 
-        alt={`${project.title} - ${project.category}`}
+        alt={project.title}
         loading="lazy"
         onLoad={() => setIsLoaded(true)}
-        className={`w-full h-full object-cover transition-all duration-1000 ease-out transform
-          ${isLoaded ? 'grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105' : 'opacity-0 scale-105'}`}
+        className={`w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 ease-out group-hover:scale-105 ${isLoaded ? 'opacity-60' : 'opacity-0'}`}
       />
-      
-      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-700 flex flex-col justify-end p-12">
-        <span className="text-[8px] uppercase tracking-[0.5em] text-neutral-400 mb-4">{project.category}</span>
-        <h4 className="text-3xl font-bold mb-8 uppercase tracking-tighter">{project.title}</h4>
-        <div className="flex items-center gap-5 text-[8px] font-bold uppercase tracking-[0.4em]">
-          <span>{project.videoUrl ? 'Watch Film' : 'View Work'}</span>
-          <div className="w-12 h-[1px] bg-white group-hover:w-20 transition-all"></div>
+      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-8">
+        <span className="text-[8px] tracking-[0.6em] text-neutral-500 uppercase mb-3 font-bold">{project.category}</span>
+        <h4 className="text-xl font-bold uppercase tracking-tighter mb-4 leading-none">{project.title}</h4>
+        <div className="flex items-center gap-4 text-[8px] font-bold uppercase tracking-[0.5em] text-white/70">
+          <div className="w-8 h-[1px] bg-white/30 group-hover:w-16 group-hover:bg-white transition-all duration-700"></div>
         </div>
       </div>
-      {project.videoUrl && (
-        <div className="absolute top-8 right-8 text-white/40">
-          <i className="fa-brands fa-youtube text-2xl"></i>
-        </div>
-      )}
-    </article>
+    </div>
   );
 };
 
-export const Portfolio: React.FC<PortfolioProps> = ({ 
-  data, 
-  previewOnly, 
-  onShowMore, 
-  externalFilter = 'All',
-  onFilterChange,
-  onInquire
-}) => {
-  const [internalFilter, setInternalFilter] = useState<'All' | 'Photography' | 'Cinematography'>(externalFilter);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+export const Portfolio: React.FC<PortfolioProps> = ({ data, ui, title, previewOnly, onShowMore, onBack, onInquire }) => {
+  const [selected, setSelected] = useState<Project | null>(null);
 
-  // Sync internal state with external filter if provided
   useEffect(() => {
-    setInternalFilter(externalFilter);
-  }, [externalFilter]);
+    document.body.style.overflow = selected ? 'hidden' : 'unset';
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [selected]);
 
-  // Lock body scroll when modal is open
-  useEffect(() => {
-    if (selectedProject) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [selectedProject]);
+  const displayProjects = useMemo(() => previewOnly ? data.slice(0, 6) : data, [data, previewOnly]);
 
-  const activeFilter = onFilterChange ? externalFilter : internalFilter;
-  const setFilter = onFilterChange || setInternalFilter;
-
-  const filteredProjects = useMemo(() => {
-    let list = data;
-    if (activeFilter === 'Photography') list = data.filter(p => p.category === 'Photography');
-    if (activeFilter === 'Cinematography') list = data.filter(p => p.category === 'Cinematography' || p.category === 'Commercial' || p.category === 'Documentary');
-    return previewOnly ? list.slice(0, 4) : list;
-  }, [activeFilter, data, previewOnly]);
-
-  const renderMedia = (project: Project) => {
-    const youtubeId = project.videoUrl ? getYouTubeId(project.videoUrl) : null;
-
-    if (youtubeId) {
+  const renderMedia = (p: Project) => {
+    const yid = p.videoUrl ? getYouTubeId(p.videoUrl) : null;
+    if (yid) {
       return (
-        <iframe
-          width="100%"
-          height="100%"
-          src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`}
-          title={project.title}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="w-full h-full object-cover"
-        ></iframe>
+        <div className="w-full aspect-video bg-black shadow-2xl border border-white/5">
+          <iframe 
+            width="100%" 
+            height="100%" 
+            src={`https://www.youtube.com/embed/${yid}?autoplay=1&rel=0&modestbranding=1&color=white&playsinline=1`} 
+            frameBorder="0" 
+            allowFullScreen 
+            allow="autoplay; encrypted-media; picture-in-picture"
+          ></iframe>
+        </div>
       );
     }
-
-    if (project.videoUrl) {
-      return (
-        <video controls autoPlay className="w-full h-full object-contain">
-          <source src={project.videoUrl} type="video/mp4" />
-        </video>
-      );
-    }
-
-    return (
-      <img 
-        src={project.thumbnail} 
-        alt={project.title} 
-        className="w-full h-full object-contain bg-black"
-      />
-    );
+    return <img src={p.thumbnail} alt={p.title} className="max-w-full max-h-[85vh] object-contain shadow-2xl border border-white/10" />;
   };
 
   return (
-    <section id="portfolio" className="py-32 px-8 bg-black">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-12">
-          <header>
-            <h2 className="text-[9px] uppercase tracking-[0.6em] text-neutral-600 mb-6 font-bold">The Portfolio</h2>
-            <h3 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase leading-none">Curated Archive</h3>
-          </header>
-          
-          <nav className="flex gap-8 border-b border-white/5 pb-4 w-full md:w-auto overflow-x-auto">
-            {['All', 'Photography', 'Cinematography'].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat as any)}
-                className={`text-[10px] uppercase tracking-[0.3em] whitespace-nowrap transition-all ${activeFilter === cat ? 'text-white font-bold underline underline-offset-8' : 'text-neutral-600 hover:text-white'}`}
-                aria-label={`Filter by ${cat}`}
-              >
-                {cat}
+    <section id="portfolio" className="py-24 px-6 md:px-12 bg-black">
+      <div className="max-w-screen-2xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+          <div className="space-y-4">
+            {onBack && (
+              <button onClick={onBack} className="text-[9px] uppercase tracking-[0.5em] text-neutral-500 hover:text-white transition-colors group flex items-center gap-3">
+                <i className="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> {ui.back}
               </button>
-            ))}
-          </nav>
+            )}
+            <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter">{title || ui.work}</h2>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12">
-          {filteredProjects.map((project) => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
-              onClick={() => setSelectedProject(project)} 
-            />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {displayProjects.map(p => <ProjectCard key={p.id} project={p} onClick={() => setSelected(p)} />)}
         </div>
 
-        {previewOnly && data.length > 4 && (
+        {previewOnly && data.length > 6 && (
           <div className="mt-24 text-center">
-            <button 
-              onClick={onShowMore}
-              className="px-12 py-5 border border-white/10 text-[9px] uppercase tracking-[0.4em] font-bold hover:bg-white hover:text-black transition-all"
-            >
-              See All Productions
+            <button onClick={onShowMore} className="px-12 py-6 border border-white/10 text-[9px] font-bold uppercase tracking-[0.6em] hover:bg-white hover:text-black transition-all duration-500">
+              {ui.allProductions}
             </button>
           </div>
         )}
       </div>
 
-      {selectedProject && (
-        <div 
-          className="fixed inset-0 z-[100] bg-black/98 backdrop-blur-3xl flex items-center justify-center p-6 md:p-12 overflow-y-auto" 
-          role="dialog"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setSelectedProject(null);
-          }}
-        >
-          <button 
-            onClick={() => setSelectedProject(null)}
-            className="fixed top-6 right-6 md:top-12 md:right-12 text-white/50 hover:text-white transition-colors z-[110]"
-            aria-label="Close modal"
-          >
-            <i className="fa-solid fa-xmark text-4xl"></i>
-          </button>
-          
-          <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-5 gap-12 md:gap-20 py-12 md:py-24 pointer-events-none">
-            <div className="lg:col-span-3 bg-neutral-900 aspect-video shadow-2xl relative group overflow-hidden border border-white/5 pointer-events-auto">
-              {renderMedia(selectedProject)}
-            </div>
-            
-            <div className="lg:col-span-2 space-y-8 md:space-y-12 pointer-events-auto">
-              <header>
-                <span className="text-[9px] uppercase tracking-[0.6em] text-neutral-500 mb-5 block">{selectedProject.category} &bull; {selectedProject.year}</span>
-                <h2 className="text-4xl md:text-5xl font-bold mb-8 uppercase tracking-tighter leading-tight">{selectedProject.title}</h2>
-                <p className="text-base md:text-lg text-neutral-400 font-light leading-relaxed italic border-l-2 border-white/10 pl-6">
-                  {selectedProject.description}
-                </p>
-              </header>
-              <button 
-                onClick={() => {
-                  if (onInquire) onInquire(selectedProject);
-                  setSelectedProject(null);
-                }}
-                className="w-full py-6 bg-white text-black font-bold uppercase tracking-[0.3em] text-[10px] hover:bg-neutral-200 transition-colors"
-              >
-                Inquire About Project
-              </button>
-            </div>
+      {selected && (
+        <div className="fixed inset-0 z-[100] bg-black/98 backdrop-blur-3xl flex items-center justify-center p-4 md:p-12 overflow-y-auto animate-fade" onClick={(e) => e.target === e.currentTarget && setSelected(null)}>
+          <button onClick={() => setSelected(null)} className="fixed top-8 right-8 text-white/30 hover:text-white z-[110] transition-colors"><i className="fa-solid fa-xmark text-4xl"></i></button>
+          <div className={`w-full max-w-7xl animate-fade ${selected.category === 'Photography' ? 'flex justify-center' : 'grid lg:grid-cols-5 gap-16'}`}>
+            <div className={`${selected.category === 'Photography' ? 'w-full flex justify-center' : 'lg:col-span-3'}`}>{renderMedia(selected)}</div>
+            {selected.category !== 'Photography' && (
+              <div className="lg:col-span-2 flex flex-col justify-center space-y-12">
+                <div className="space-y-6">
+                  <span className="text-[9px] uppercase tracking-[0.5em] text-neutral-500 font-bold">{selected.category} &bull; {selected.year}</span>
+                  <h3 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-none">{selected.title}</h3>
+                  <p className="text-neutral-400 font-light leading-relaxed text-lg italic">"{selected.description}"</p>
+                </div>
+                <button onClick={() => { onInquire?.(selected); setSelected(null); }} className="py-6 bg-white text-black text-[10px] font-bold uppercase tracking-[0.5em]">{ui.inquire}</button>
+              </div>
+            )}
           </div>
         </div>
       )}
