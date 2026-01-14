@@ -39,10 +39,10 @@ export const TRANSLATIONS: Record<Language, SiteData> = {
       customProposal: "Maatwerk Nodig?"
     },
     projects: [
-      { id: 'vid-1', title: 'When the World Sleeps', category: 'Cinematography', thumbnail: 'https://img.youtube.com/vi/fmchWI8hVSA/maxresdefault.jpg', description: 'Visuele verkenning van de nacht.', year: '2024', videoUrl: 'https://youtu.be/fmchWI8hVSA' },
-      { id: 'vid-3', title: 'Inrichting op Maat', category: 'Commercial', thumbnail: 'https://img.youtube.com/vi/c_vPvZcodhY/maxresdefault.jpg', description: 'Strakke promo voor high-end interieur.', year: '2024', videoUrl: 'https://youtu.be/c_vPvZcodhY' },
-      { id: 'vid-2', title: 'Family Christmas', category: 'Documentary', thumbnail: 'https://img.youtube.com/vi/txDD8UdMlJM/maxresdefault.jpg', description: 'Emotionele en intieme storytelling.', year: '2023', videoUrl: 'https://youtu.be/txDD8UdMlJM' },
-      { id: 'vid-4', title: 'Jean-Pierre: The Artist', category: 'Cinematography', thumbnail: 'https://img.youtube.com/vi/crk9L3lpGoI/maxresdefault.jpg', description: 'Artistiek portret in motion.', year: '2024', videoUrl: 'https://youtu.be/crk9L3lpGoI' }
+      { id: 'vid-1', title: 'When the World Sleeps', category: 'Cinematography', thumbnail: 'https://img.youtube.com/vi/fmchWI8hVSA/maxresdefault.jpg', description: 'Visuele verkenning van de nacht.', year: '2024', videoUrl: 'https://www.youtube.com/watch?v=fmchWI8hVSA' },
+      { id: 'vid-3', title: 'Inrichting op Maat', category: 'Commercial', thumbnail: 'https://img.youtube.com/vi/c_vPvZcodhY/maxresdefault.jpg', description: 'Strakke promo voor high-end interieur.', year: '2024', videoUrl: 'https://www.youtube.com/watch?v=c_vPvZcodhY' },
+      { id: 'vid-2', title: 'Family Christmas', category: 'Documentary', thumbnail: 'https://img.youtube.com/vi/txDD8UdMlJM/maxresdefault.jpg', description: 'Emotionele en intieme storytelling.', year: '2023', videoUrl: 'https://www.youtube.com/watch?v=txDD8UdMlJM' },
+      { id: 'vid-4', title: 'Jean-Pierre: The Artist', category: 'Cinematography', thumbnail: 'https://img.youtube.com/vi/crk9L3lpGoI/maxresdefault.jpg', description: 'Artistiek portret in motion.', year: '2024', videoUrl: 'https://www.youtube.com/watch?v=crk9L3lpGoI' }
     ],
     packages: [
       // Photography (Low -> High)
@@ -126,7 +126,7 @@ export const TRANSLATIONS: Record<Language, SiteData> = {
         category: 'Combo', 
         price: '€850', 
         description: 'Instap content pack. Snel resultaat.', 
-        features: ['1 Reel / Short', '5 Portret Foto’s', '1 Uur Opname', 'Efficiënt & Snel'] 
+        features: ['1 Reel / Short', '5 Portrait Photos', '1 Hour Shoot', 'Efficient & Fast'] 
       },
       { 
         id: 'c1', 
@@ -134,7 +134,7 @@ export const TRANSLATIONS: Record<Language, SiteData> = {
         category: 'Combo', 
         price: '€1.050', 
         description: 'Boost je online aanwezigheid in één keer.', 
-        features: ['3x Reels Video', '10x Portret Foto', 'Halve Dag Opname', 'Social Ready'] 
+        features: ['3x Reels Video', '10x Portrait Photos', 'Halve Dag Opname', 'Social Ready'] 
       },
       { 
         id: 'c2', 
@@ -195,10 +195,10 @@ export const TRANSLATIONS: Record<Language, SiteData> = {
       customProposal: "Need Custom Work?"
     },
     projects: [
-      { id: 'vid-1', title: 'When the World Sleeps', category: 'Cinematography', thumbnail: 'https://img.youtube.com/vi/fmchWI8hVSA/maxresdefault.jpg', description: 'Visual exploration of the night.', year: '2024', videoUrl: 'https://youtu.be/fmchWI8hVSA' },
-      { id: 'vid-3', title: 'Custom Fitting', category: 'Commercial', thumbnail: 'https://img.youtube.com/vi/c_vPvZcodhY/maxresdefault.jpg', description: 'Sleek promo for interior design.', year: '2024', videoUrl: 'https://youtu.be/c_vPvZcodhY' },
-      { id: 'vid-2', title: 'Family Christmas', category: 'Documentary', thumbnail: 'https://img.youtube.com/vi/txDD8UdMlJM/maxresdefault.jpg', description: 'Intimate family storytelling.', year: '2023', videoUrl: 'https://youtu.be/txDD8UdMlJM' },
-      { id: 'vid-4', title: 'Jean-Pierre: The Artist', category: 'Cinematography', thumbnail: 'https://img.youtube.com/vi/crk9L3lpGoI/maxresdefault.jpg', description: 'Artistic portrait in motion.', year: '2024', videoUrl: 'https://youtu.be/crk9L3lpGoI' }
+      { id: 'vid-1', title: 'When the World Sleeps', category: 'Cinematography', thumbnail: 'https://img.youtube.com/vi/fmchWI8hVSA/maxresdefault.jpg', description: 'Visual exploration of the night.', year: '2024', videoUrl: 'https://www.youtube.com/watch?v=fmchWI8hVSA' },
+      { id: 'vid-3', title: 'Custom Fitting', category: 'Commercial', thumbnail: 'https://img.youtube.com/vi/c_vPvZcodhY/maxresdefault.jpg', description: 'Sleek promo for interior design.', year: '2024', videoUrl: 'https://www.youtube.com/watch?v=c_vPvZcodhY' },
+      { id: 'vid-2', title: 'Family Christmas', category: 'Documentary', thumbnail: 'https://img.youtube.com/vi/txDD8UdMlJM/maxresdefault.jpg', description: 'Intimate family storytelling.', year: '2023', videoUrl: 'https://www.youtube.com/watch?v=txDD8UdMlJM' },
+      { id: 'vid-4', title: 'Jean-Pierre: The Artist', category: 'Cinematography', thumbnail: 'https://img.youtube.com/vi/crk9L3lpGoI/maxresdefault.jpg', description: 'Artistic portrait in motion.', year: '2024', videoUrl: 'https://www.youtube.com/watch?v=crk9L3lpGoI' }
     ],
     packages: [
       { id: 'p0', name: 'The Headshot', category: 'Photography', price: '€225', description: 'The essentials. Short and powerful for profiles.', features: ['30 Min Session', '3 Pro Retouches', 'Studio Setting', 'Direct Selection'] },

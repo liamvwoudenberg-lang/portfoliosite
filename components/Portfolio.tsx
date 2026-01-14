@@ -11,10 +11,21 @@ interface PortfolioProps {
   onInquire?: (project: Project) => void;
 }
 
+// Robust YouTube ID extractor handling Shorts, Embeds, and full iframe strings
 const getYouTubeId = (url: string) => {
+  if (!url) return null;
+  
+  // Handle if user pasted full iframe tag
+  if (url.includes('<iframe')) {
+    const srcMatch = url.match(/src=["'](.*?)["']/);
+    if (srcMatch) url = srcMatch[1];
+  }
+
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
   const match = url.match(regExp);
-  return (match && match[2].length === 11) ? match[2] : null;
+  
+  // ID is typically 11 chars, but we allow 10-12 to be safe
+  return (match && match[2].length >= 10) ? match[2] : null;
 };
 
 const ProjectCard: React.FC<{ project: Project; onClick: () => void }> = ({ project, onClick }) => {
@@ -56,14 +67,17 @@ export const Portfolio: React.FC<PortfolioProps> = ({ data, ui, title, previewOn
     const yid = p.videoUrl ? getYouTubeId(p.videoUrl) : null;
     if (yid) {
       return (
-        <div className="w-full aspect-video bg-black shadow-2xl border border-white/5">
+        <div className="w-full aspect-video bg-black shadow-2xl border border-white/5 relative">
           <iframe 
             width="100%" 
             height="100%" 
             src={`https://www.youtube.com/embed/${yid}?autoplay=1&rel=0&modestbranding=1&color=white&playsinline=1`} 
+            title={p.title}
             frameBorder="0" 
             allowFullScreen 
-            allow="autoplay; encrypted-media; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            className="absolute inset-0 w-full h-full"
           ></iframe>
         </div>
       );
@@ -100,7 +114,9 @@ export const Portfolio: React.FC<PortfolioProps> = ({ data, ui, title, previewOn
 
       {selected && (
         <div className="fixed inset-0 z-[100] bg-black/98 backdrop-blur-3xl flex items-center justify-center p-4 md:p-12 overflow-y-auto animate-fade" onClick={(e) => e.target === e.currentTarget && setSelected(null)}>
-          <button onClick={() => setSelected(null)} className="fixed top-8 right-8 text-white/30 hover:text-white z-[110] transition-colors"><i className="fa-solid fa-xmark text-4xl"></i></button>
+          <button onClick={() => setSelected(null)} className="fixed top-8 right-8 text-white/30 hover:text-white z-[110] transition-colors bg-black/50 p-4 rounded-full backdrop-blur-md">
+            <i className="fa-solid fa-xmark text-2xl"></i>
+          </button>
           <div className={`w-full max-w-7xl animate-fade ${selected.category === 'Photography' ? 'flex justify-center' : 'grid lg:grid-cols-5 gap-16'}`}>
             <div className={`${selected.category === 'Photography' ? 'w-full flex justify-center' : 'lg:col-span-3'}`}>{renderMedia(selected)}</div>
             {selected.category !== 'Photography' && (
@@ -110,7 +126,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({ data, ui, title, previewOn
                   <h3 className="text-4xl md:text-5xl font-bold uppercase tracking-tighter leading-none">{selected.title}</h3>
                   <p className="text-neutral-400 font-light leading-relaxed text-lg italic">"{selected.description}"</p>
                 </div>
-                <button onClick={() => { onInquire?.(selected); setSelected(null); }} className="py-6 bg-white text-black text-[10px] font-bold uppercase tracking-[0.5em]">{ui.inquire}</button>
+                <button onClick={() => { onInquire?.(selected); setSelected(null); }} className="py-6 bg-white text-black text-[10px] font-bold uppercase tracking-[0.5em] hover:bg-neutral-200 transition-colors">{ui.inquire}</button>
               </div>
             )}
           </div>
