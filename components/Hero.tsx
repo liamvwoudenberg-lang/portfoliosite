@@ -13,21 +13,7 @@ interface HeroProps {
   onCtaClick: () => void;
 }
 
-const getYouTubeId = (url: string) => {
-  if (!url) return null;
-  
-  if (url.includes('<iframe')) {
-    const srcMatch = url.match(/src=["'](.*?)["']/);
-    if (srcMatch) url = srcMatch[1];
-  }
-
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
-  const match = url.match(regExp);
-  return (match && match[2].length >= 10) ? match[2] : null;
-};
-
 export const Hero: React.FC<HeroProps> = ({ data, ui, onCtaClick }) => {
-  const [showReel, setShowReel] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   return (
@@ -68,30 +54,8 @@ export const Hero: React.FC<HeroProps> = ({ data, ui, onCtaClick }) => {
           <button onClick={onCtaClick} className="px-10 py-5 md:px-14 md:py-6 bg-white text-black font-bold uppercase tracking-[0.4em] text-[9px] md:text-[10px] hover:bg-neutral-200 transition-all w-full sm:w-auto">
             {ui.explore}
           </button>
-          {data.showreelVideoUrl && (
-            <button onClick={() => setShowReel(true)} className="px-10 py-5 md:px-14 md:py-6 border border-white/10 text-white font-bold uppercase tracking-[0.4em] text-[9px] md:text-[10px] hover:bg-white/5 transition-all w-full sm:w-auto">
-              {ui.showreel}
-            </button>
-          )}
         </div>
       </div>
-
-      {showReel && data.showreelVideoUrl && (
-        <div className="fixed inset-0 z-[100] bg-black/98 backdrop-blur-3xl flex items-center justify-center p-4 md:p-12 animate-fade" onClick={(e) => e.target === e.currentTarget && setShowReel(false)}>
-          <button onClick={() => setShowReel(false)} className="absolute top-8 right-8 text-white/40 hover:text-white transition-colors z-[110]"><i className="fa-solid fa-xmark text-4xl"></i></button>
-          <div className="w-full max-w-7xl aspect-video bg-black shadow-2xl overflow-hidden border border-white/5 relative">
-            <iframe 
-              width="100%" 
-              height="100%" 
-              src={`https://www.youtube.com/embed/${getYouTubeId(data.showreelVideoUrl)}?autoplay=1&modestbranding=1&rel=0`} 
-              frameBorder="0" 
-              allowFullScreen 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              className="absolute inset-0 w-full h-full"
-            ></iframe>
-          </div>
-        </div>
-      )}
     </header>
   );
 };
