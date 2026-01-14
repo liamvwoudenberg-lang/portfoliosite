@@ -5,21 +5,80 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
-      - name: Install dependencies
-        run: npm ci
-      - name: Build
-        run: npm run build
-      - name: Deploy to GitHub Pages
+          node-version: '18'
+
+      - name: Install dependencies (use npm ci when lockfile exists, otherwise npm install)
+        run: |
+          if [ -f package.json ]; then
+            echo "package.json found"
+            if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then
+              echo "Lockfile found — running npm ci"
+              npm ci
+            else
+              echo "No lockfile — running npm install"
+              npm install
+            fi
+          else
+            echo "No package.json — skipping Node install"
+          fi
+
+      - name: Build (if a build script exists)
+        run: |
+          if [ -f package.json ]; then
+            echo "Running npm run build --if-present"
+            npm run build --if-present
+          else
+            echo "No package.json — skipping build"
+          fi
+
+      - name: Determine publish directory
+        id: set-publish-dir
+        run: |
+          # common build output directories: build, dist, docs
+          if [ -d build ]; then
+            echo "publish_dir=build" >> $GITHUB_OUTPUT
+            echo "Detected publish_dir: build"
+          elif [ -d dist ]; then
+            echo "publish_dir=dist" >> $GITHUB_OUTPUT
+            echo "Detected publish_dir: dist"
+          elif [ -d docs ]; then
+            echo "publish_dir=docs" >> $GITHUB_OUTPUT
+            echo "Detected publish_dir: docs"
+          elif [ -f index.html ]; then
+            # publish the repository root (useful for static sites with index.html in repo)
+            echo "publish_dir=." >> $GITHUB_OUTPUT
+            echo "Detected publish_dir: . (root)"
+          else
+            echo "No publish directory found. Checked: build, dist, docs, index.html" >&2
+            exit 1
+          fi
+
+      - name: Deploy to GitHub Pages (push to gh-pages branch)
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: ${{ steps.set-publish-dir.outputs.publish_dir }}
+
+      - name: Published site info
+        run: |
+          echo "Published (or updated) GitHub Pages for this repo."
+          echo "Expected site URL: https://liamvwoudenberg-lang.github.io/portfoliosite/"
