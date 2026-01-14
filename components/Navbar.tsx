@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ViewMode, Language } from '../types';
 
 interface NavbarProps {
@@ -30,10 +30,20 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onViewChange, onScr
     setIsOpen(false);
   };
 
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
   return (
     <>
-      <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-700 ${isScrolled ? 'bg-black/90 backdrop-blur-xl py-5 border-b border-white/5 shadow-lg' : 'bg-transparent py-8 md:py-10'}`}>
-        <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex md:grid md:grid-cols-3 justify-between items-center">
+      <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-700 ${isScrolled ? 'bg-black/90 backdrop-blur-xl py-4 md:py-5 border-b border-white/5 shadow-lg' : 'bg-transparent py-6 md:py-10'}`}>
+        <div className="max-w-screen-2xl mx-auto px-6 md:px-12 flex justify-between items-center md:grid md:grid-cols-3">
           
           {/* Left: Logo */}
           <div 
@@ -76,30 +86,32 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onViewChange, onScr
           </div>
 
           {/* Mobile Toggle */}
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2 z-[60]">
-            <i className={`fa-solid ${isOpen ? 'fa-xmark' : 'fa-bars-staggered'} text-xl`}></i>
+          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2 z-[60] focus:outline-none">
+            <i className={`fa-solid ${isOpen ? 'fa-xmark' : 'fa-bars-staggered'} text-xl transition-transform duration-300 ${isOpen ? 'rotate-90' : ''}`}></i>
           </button>
         </div>
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`fixed inset-0 bg-black z-50 flex flex-col items-center justify-center gap-12 transition-transform duration-500 md:hidden ${isOpen ? 'translate-y-0' : '-translate-y-full'}`}>
-        {navItems.map(item => (
-          <button 
-            key={item.label} 
-            onClick={() => handleNavClick(item)} 
-            className="text-3xl font-light tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors"
-          >
-            {item.label}
-          </button>
-        ))}
+      <div className={`fixed inset-0 bg-black z-50 flex flex-col items-center justify-center transition-transform duration-500 md:hidden h-[100dvh] overflow-y-auto ${isOpen ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className="flex flex-col items-center gap-8 md:gap-12">
+          {navItems.map(item => (
+            <button 
+              key={item.label} 
+              onClick={() => handleNavClick(item)} 
+              className="text-2xl font-light tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
         
-        <div className="flex gap-8 mt-8 border-t border-white/10 pt-10">
-          <button onClick={() => onLangChange('en')} className={`text-sm tracking-widest ${lang === 'en' ? 'text-white font-bold' : 'text-neutral-600'}`}>ENGLISH</button>
-          <button onClick={() => onLangChange('nl')} className={`text-sm tracking-widest ${lang === 'nl' ? 'text-white font-bold' : 'text-neutral-600'}`}>DUTCH</button>
+        <div className="flex gap-8 mt-12 border-t border-white/10 pt-8 mb-8">
+          <button onClick={() => onLangChange('en')} className={`text-xs tracking-widest ${lang === 'en' ? 'text-white font-bold' : 'text-neutral-600'}`}>ENGLISH</button>
+          <button onClick={() => onLangChange('nl')} className={`text-xs tracking-widest ${lang === 'nl' ? 'text-white font-bold' : 'text-neutral-600'}`}>DUTCH</button>
         </div>
 
-        <button onClick={() => { onScrollTo('contact'); setIsOpen(false); }} className="mt-8 px-10 py-4 bg-white text-black text-xs font-bold uppercase tracking-[0.4em]">
+        <button onClick={() => { onScrollTo('contact'); setIsOpen(false); }} className="px-10 py-4 bg-white text-black text-[10px] font-bold uppercase tracking-[0.4em] active:bg-neutral-200">
           {ui.inquire}
         </button>
       </div>

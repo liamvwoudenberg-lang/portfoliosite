@@ -13,11 +13,11 @@ export const Services: React.FC<ServicesProps> = ({ data, ui, onBook, onCustomIn
   const filtered = data.filter(p => p.category === activeTab);
 
   return (
-    <section className="py-32 px-6 bg-black border-t border-white/5">
+    <section className="py-16 md:py-32 px-6 bg-black border-t border-white/5">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-20">
+        <div className="text-center mb-12 md:mb-20">
           <span className="text-[9px] uppercase tracking-[0.6em] text-neutral-500 font-bold block mb-4">Pricing & Packages</span>
-          <h3 className="text-5xl md:text-7xl font-bold tracking-tighter uppercase mb-12">{ui.services}</h3>
+          <h3 className="text-4xl md:text-7xl font-bold tracking-tighter uppercase mb-8 md:mb-12">{ui.services}</h3>
           
           <div className="flex flex-wrap justify-center gap-6 md:gap-12 border-b border-white/5 max-w-lg mx-auto px-4">
             {(['Videography', 'Photography', 'Combo'] as const).map(tab => (
@@ -33,7 +33,6 @@ export const Services: React.FC<ServicesProps> = ({ data, ui, onBook, onCustomIn
           </div>
         </div>
 
-        {/* Changed to strictly 2 columns (md:grid-cols-2) for the 2x2 layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-stretch">
           {filtered.map(pkg => (
             <div 
@@ -80,7 +79,7 @@ export const Services: React.FC<ServicesProps> = ({ data, ui, onBook, onCustomIn
         </div>
 
         {/* Custom Inquiry CTA */}
-        <div className="mt-16 text-center animate-fade">
+        <div className="mt-12 md:mt-16 text-center animate-fade">
           <p className="text-neutral-500 text-[10px] uppercase tracking-widest mb-4">Project past niet in een pakket?</p>
           <button 
             onClick={onCustomInquiry} 

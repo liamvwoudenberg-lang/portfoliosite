@@ -62,12 +62,12 @@ export const Contact: React.FC<ContactProps> = ({ data, ui, initialContext }) =>
   };
 
   return (
-    <section id="contact" className="py-32 px-6 bg-black relative">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 relative z-10">
+    <section id="contact" className="py-16 md:py-32 px-6 bg-black relative">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 relative z-10">
         <div>
-          <h2 className="text-[10px] uppercase tracking-[0.6em] text-neutral-600 mb-8 font-bold">{ui.contact}</h2>
-          <h3 className="text-6xl md:text-8xl font-bold tracking-tighter mb-12 uppercase leading-none">Let's <br /> <span className="text-white/20 italic">Create</span></h3>
-          <p className="text-xl text-neutral-500 font-light max-w-md">{data.location}</p>
+          <h2 className="text-[10px] uppercase tracking-[0.6em] text-neutral-600 mb-6 md:mb-8 font-bold">{ui.contact}</h2>
+          <h3 className="text-5xl md:text-8xl font-bold tracking-tighter mb-8 md:mb-12 uppercase leading-none">Let's <br /> <span className="text-white/20 italic">Create</span></h3>
+          <p className="text-lg md:text-xl text-neutral-500 font-light max-w-md">{data.location}</p>
         </div>
 
         <div className={`bg-[#050505] p-8 md:p-12 border shadow-2xl transition-colors duration-500 ${submitted ? 'border-emerald-500/30' : 'border-white/5'}`}>
@@ -80,9 +80,9 @@ export const Contact: React.FC<ContactProps> = ({ data, ui, initialContext }) =>
               <p className="text-neutral-500 max-w-xs mx-auto leading-relaxed">{data.placeholders.successSubtitle}</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-10">
+            <form onSubmit={handleSubmit} className="space-y-8 md:space-y-10">
               <input type="text" className="hidden" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
                 <input required value={name} onChange={(e) => setName(e.target.value)} className="w-full bg-transparent border-b border-neutral-800 py-3 focus:border-white outline-none transition-colors" placeholder={data.placeholders.name} />
                 <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-transparent border-b border-neutral-800 py-3 focus:border-white outline-none transition-colors" placeholder={data.placeholders.email} />
               </div>
