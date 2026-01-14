@@ -50,25 +50,25 @@ export const TRANSLATIONS: Record<Language, SiteData> = {
         id: 'p0', 
         name: 'The Headshot', 
         category: 'Photography', 
-        price: '€225', 
+        price: '€195', 
         description: 'De essentie. Kort en krachtig voor je profielfoto.', 
-        features: ['30 Min Sessie', '3 High-End Edits', 'Studio Setting', 'Directe Selectie'] 
+        features: ['30 Min Sessie (Studio)', '3 High-End Edits', 'Binnen 24u Geleverd', '1 Correctieronde'] 
       },
       { 
         id: 'p1', 
         name: 'Personal Brand', 
         category: 'Photography', 
-        price: '€350', 
+        price: '€345', 
         description: 'Professionele portretten voor LinkedIn & Website.', 
-        features: ['1 Uur Studio/Locatie', '10 High-End Edits', 'Online Galerij', 'Zakelijk & Social'] 
+        features: ['1 Uur Studio/Locatie', '10 High-End Edits', 'Online Galerij', '2 Kledingswitches'] 
       },
       { 
         id: 'p2', 
         name: 'Event Report', 
         category: 'Photography', 
-        price: '€950', 
+        price: '€850', 
         oldPrice: '€1.150', 
-        discountTag: 'MEEST GEKOZEN', 
+        discountTag: 'BEST DEAL', 
         description: 'Complete verslaglegging van jouw event of lancering.', 
         features: ['4 Uur Fotografie', '100+ Nabewerkte Foto’s', 'Sfeer & Highlights', 'Binnen 3 Dagen Geleverd'], 
         recommended: true 
@@ -77,7 +77,7 @@ export const TRANSLATIONS: Record<Language, SiteData> = {
         id: 'p3', 
         name: 'Full Campaign', 
         category: 'Photography', 
-        price: '€2.250', 
+        price: '€1.850', 
         description: 'High-end beelden voor advertenties en lookbooks.', 
         features: ['Volledige Productiedag', 'Art Direction', 'Commerciële Licentie', 'High-End Retouching'] 
       },
@@ -87,36 +87,36 @@ export const TRANSLATIONS: Record<Language, SiteData> = {
         id: 'v0', 
         name: 'The Teaser', 
         category: 'Videography', 
-        price: '€495', 
-        description: 'Korte, krachtige teaser om de aandacht te grijpen.', 
-        features: ['15-20s Highlight Edit', '1 Uur Opname', 'Geen Audio/Spraak', 'Perfect voor Ads'] 
+        price: '€395', 
+        description: 'Jouw visitekaartje. Korte teaser om de aandacht te grijpen.', 
+        features: ['Tot 2 Uur Opname', '15-20s Highlight Edit', 'Muzieklicentie (Geen spraak)', '1 Revisieronde'] 
       },
       { 
         id: 'v1', 
-        name: 'Social Content', 
+        name: 'Social Bundle', 
         category: 'Videography', 
-        price: '€750', 
-        description: 'Snelle, engaging content voor TikTok & Reels.', 
-        features: ['3x Vertical Video (9:16)', 'Dynamische Edit', 'Trending Audio', '2 Revisierondes'] 
+        price: '€675', 
+        description: 'Viral potential. Drie video\'s in één keer geschoten.', 
+        features: ['Halve Dag (4 Uur)', '3x Vertical Video (9:16)', 'Dynamische Edit + Audio', '2 Revisierondes per video'] 
       },
       { 
         id: 'v2', 
-        name: 'Event Film', 
+        name: 'Event Recap', 
         category: 'Videography', 
-        price: '€1.450', 
-        oldPrice: '€1.650', 
+        price: '€895', 
+        oldPrice: '€1.450', 
         discountTag: 'POPULAR', 
-        description: 'De energie van jouw event in een cinematische edit.', 
-        features: ['Halve Dag Filmen', 'Cinematische Edit (90s)', 'Licentie Muziek', 'Color Grading'], 
+        description: 'De energie van jouw event gevangen in een aftermovie.', 
+        features: ['Tot 5 Uur Filmen', 'Cinematische Edit (60-90s)', '4K Kwaliteit + Grading', '2 Revisierondes'], 
         recommended: true 
       },
       { 
         id: 'v3', 
-        name: 'Brand Movie', 
+        name: 'Brand Story', 
         category: 'Videography', 
-        price: '€3.450', 
+        price: '€1.950', 
         description: 'Een premium film die jouw merkverhaal vertelt.', 
-        features: ['Concept & Script', 'Volledige Crew', 'Voice-over & Sound', '4K Cinema Kwaliteit'] 
+        features: ['Cameraman + Assistent', 'Concept & Script Sessie', 'Voice-over Optie', '3 Uitgebreide Revisierondes'] 
       },
 
       // Combo (Low -> High)
@@ -124,36 +124,36 @@ export const TRANSLATIONS: Record<Language, SiteData> = {
         id: 'c0', 
         name: 'The Quickfire', 
         category: 'Combo', 
-        price: '€850', 
-        description: 'Instap content pack. Snel resultaat.', 
-        features: ['1 Reel / Short', '5 Portrait Photos', '1 Hour Shoot', 'Efficient & Fast'] 
+        price: '€795', 
+        description: 'Instap content pack. Snel resultaat voor starters.', 
+        features: ['1 Reel / Short Video', '5 Portretfoto\'s', '1.5 Uur Shoot', 'Supersnelle levering'] 
       },
       { 
         id: 'c1', 
         name: 'Social Kickstart', 
         category: 'Combo', 
-        price: '€1.050', 
+        price: '€995', 
         description: 'Boost je online aanwezigheid in één keer.', 
-        features: ['3x Reels Video', '10x Portrait Photos', 'Halve Dag Opname', 'Social Ready'] 
+        features: ['3x Reels Video', '10x Portretfoto\'s', 'Halve Dag Opname', 'Social Ready Formats'] 
       },
       { 
         id: 'c2', 
         name: 'Event All-In', 
         category: 'Combo', 
-        price: '€1.950', 
-        oldPrice: '€2.400', 
+        price: '€1.550', 
+        oldPrice: '€1.950', 
         discountTag: '-20% DEAL', 
         description: 'Foto én video van jouw evenement.', 
-        features: ['1 Videograaf + 1 Fotograaf', 'Aftermovie + 75 Foto’s', 'Volledige Dekking', 'Efficiënte Workflow'], 
+        features: ['1 Videograaf + 1 Fotograaf', 'Aftermovie + 75 Foto’s', 'Volledige Dekking (4u)', 'Efficiënte Workflow'], 
         recommended: true 
       },
       { 
         id: 'c3', 
         name: 'Brand Launch', 
         category: 'Combo', 
-        price: '€4.950', 
+        price: '€3.950', 
         description: 'Alles wat je nodig hebt voor een nieuwe start.', 
-        features: ['Brand Movie', '5 Social Shorts', '30 Campaign Foto’s', 'Strategie Sessie'] 
+        features: ['Brand Movie (Video)', '5 Social Shorts', '30 Campaign Foto’s', 'Strategie Sessie'] 
       }
     ]
   },
@@ -201,22 +201,23 @@ export const TRANSLATIONS: Record<Language, SiteData> = {
       { id: 'vid-4', title: 'Jean-Pierre: The Artist', category: 'Cinematography', thumbnail: 'https://img.youtube.com/vi/crk9L3lpGoI/maxresdefault.jpg', description: 'Artistic portrait in motion.', year: '2024', videoUrl: 'https://www.youtube.com/watch?v=crk9L3lpGoI' }
     ],
     packages: [
-      { id: 'p0', name: 'The Headshot', category: 'Photography', price: '€225', description: 'The essentials. Short and powerful for profiles.', features: ['30 Min Session', '3 Pro Retouches', 'Studio Setting', 'Direct Selection'] },
-      { id: 'p1', name: 'Personal Brand', category: 'Photography', price: '€350', description: 'Professional headshots & personal branding.', features: ['1 Hour Session', '10 Pro Retouches', 'Studio or Location', 'Online Gallery'] },
-      { id: 'p2', name: 'Event Report', category: 'Photography', price: '€950', oldPrice: '€1.150', discountTag: 'POPULAR', description: 'Complete coverage of your event.', features: ['4 Hours Coverage', '100+ Edited Photos', 'Fast Delivery', 'High Resolution'], recommended: true },
-      { id: 'p3', name: 'Full Campaign', category: 'Photography', price: '€2.250', description: 'High-end advertising & editorial photography.', features: ['Full Day Production', 'Art Direction', 'Commercial License', 'High-End Retouching'] },
+      { id: 'p0', name: 'The Headshot', category: 'Photography', price: '€195', description: 'The essentials. Short and powerful for profiles.', features: ['30 Min Session', '3 Pro Retouches', '24h Delivery', '1 Revision Round'] },
+      { id: 'p1', name: 'Personal Brand', category: 'Photography', price: '€345', description: 'Professional headshots & personal branding.', features: ['1 Hour Session', '10 Pro Retouches', 'Studio or Location', '2 Outfit Changes'] },
+      { id: 'p2', name: 'Event Report', category: 'Photography', price: '€850', oldPrice: '€1.150', discountTag: 'BEST DEAL', description: 'Complete coverage of your event.', features: ['4 Hours Coverage', '100+ Edited Photos', 'Fast Delivery', 'High Resolution'], recommended: true },
+      { id: 'p3', name: 'Full Campaign', category: 'Photography', price: '€1.850', description: 'High-end advertising & editorial photography.', features: ['Full Day Production', 'Art Direction', 'Commercial License', 'High-End Retouching'] },
       
-      { id: 'v0', name: 'The Teaser', category: 'Videography', price: '€495', description: 'Short, punchy teaser to grab attention.', features: ['15-20s Highlight Edit', '1 Hour Shoot', 'No Voice/Audio', 'Perfect for Ads'] },
-      { id: 'v1', name: 'Social Content', category: 'Videography', price: '€750', description: 'Fast, engaging content for TikTok & Reels.', features: ['3x Vertical Video (9:16)', 'Dynamic Editing', 'Trending Audio', '2 Revision Rounds'] },
-      { id: 'v2', name: 'Event Film', category: 'Videography', price: '€1.450', oldPrice: '€1.650', discountTag: 'POPULAR', description: 'Capture the energy of your event.', features: ['Half Day Filming', 'Cinematic Edit (90s)', 'Music License', 'Color Grading'], recommended: true },
-      { id: 'v3', name: 'Brand Movie', category: 'Videography', price: '€3.450', description: 'A premium film that defines your brand.', features: ['Concept & Script', 'Full Crew', 'Voice-over & Sound', '4K Cinema Quality'] },
+      { id: 'v0', name: 'The Teaser', category: 'Videography', price: '€395', description: 'Your business card. Short, punchy teaser.', features: ['Up to 2 Hours Shoot', '15-20s Highlight Edit', 'Music License', '1 Revision Round'] },
+      { id: 'v1', name: 'Social Bundle', category: 'Videography', price: '€675', description: 'Viral potential. Three videos in one shoot.', features: ['Half Day (4 Hours)', '3x Vertical Video (9:16)', 'Dynamic Editing', '2 Revision Rounds per video'] },
+      { id: 'v2', name: 'Event Recap', category: 'Videography', price: '€895', oldPrice: '€1.450', discountTag: 'POPULAR', description: 'Capture the energy of your event.', features: ['Up to 5 Hours Filming', 'Cinematic Edit (90s)', '4K Quality + Grading', '2 Revision Rounds'], recommended: true },
+      { id: 'v3', name: 'Brand Story', category: 'Videography', price: '€1.950', description: 'A premium film that defines your brand.', features: ['Cam Op + Assistant', 'Concept & Script', 'Voice-over Option', '3 Major Revision Rounds'] },
       
-      { id: 'c0', name: 'The Quickfire', category: 'Combo', price: '€850', description: 'Entry-level content pack. Fast results.', features: ['1 Reel / Short', '5 Portrait Photos', '1 Hour Shoot', 'Efficient & Fast'] },
-      { id: 'c1', name: 'Social Kickstart', category: 'Combo', price: '€1.050', description: 'Boost your online presence at once.', features: ['3x Reels Video', '10x Portrait Photos', 'Half Day Shoot', 'Social Ready'] },
-      { id: 'c2', name: 'Event All-In', category: 'Combo', price: '€1.950', oldPrice: '€2.400', discountTag: '-20% DEAL', description: 'Photo & Video of your event.', features: ['1 Videographer + 1 Photographer', 'Aftermovie + 75 Photos', 'Full Coverage', 'Efficient Workflow'], recommended: true },
-      { id: 'c3', name: 'Brand Launch', category: 'Combo', price: '€4.950', description: 'Everything you need for a new start.', features: ['Brand Movie', '5 Social Shorts', '30 Campaign Photos', 'Strategy Session'] }
+      { id: 'c0', name: 'The Quickfire', category: 'Combo', price: '€795', description: 'Entry-level content pack. Fast results.', features: ['1 Reel / Short', '5 Portrait Photos', '1.5 Hour Shoot', 'Super Fast Delivery'] },
+      { id: 'c1', name: 'Social Kickstart', category: 'Combo', price: '€995', description: 'Boost your online presence at once.', features: ['3x Reels Video', '10x Portrait Photos', 'Half Day Shoot', 'Social Ready'] },
+      { id: 'c2', name: 'Event All-In', category: 'Combo', price: '€1.550', oldPrice: '€1.950', discountTag: '-20% DEAL', description: 'Photo & Video of your event.', features: ['1 Videographer + 1 Photographer', 'Aftermovie + 75 Photos', 'Full Coverage (4h)', 'Efficient Workflow'], recommended: true },
+      { id: 'c3', name: 'Brand Launch', category: 'Combo', price: '€3.950', description: 'Everything you need for a new start.', features: ['Brand Movie', '5 Social Shorts', '30 Campaign Photos', 'Strategy Session'] }
     ]
   }
 };
 
 export const DEFAULT_DATA = TRANSLATIONS.nl;
+
